@@ -21,7 +21,7 @@ object DataSyncApiService extends App {
       props = FromConfig.getInstance.props(KafkaProducer.props(materializer)),
       name = "kafkaProducerActor")
 
-  val telemetryService = new TelemetryEndPoints(kafkaProducerActor)
+  val telemetryService = new ApiEndPoints(kafkaProducerActor)
 
   val bindingFuture = Http().bindAndHandle(telemetryService.telemetryServiceRoutes,
     interface = Configuration.host, port = Configuration.port)

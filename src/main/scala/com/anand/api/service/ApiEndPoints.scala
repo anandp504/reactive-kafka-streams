@@ -21,14 +21,14 @@ trait JsonSupport extends Json4sSupport {
   implicit val json4sFormats: DefaultFormats = org.json4s.DefaultFormats
 }
 
-class TelemetryEndPoints(kafkaProducer: ActorRef)(implicit val ec: ExecutionContext, mat: Materializer) extends JsonSupport {
+class ApiEndPoints(kafkaProducer: ActorRef)(implicit val ec: ExecutionContext, mat: Materializer) extends JsonSupport {
 
   implicit val timeout: Timeout = Timeout(Configuration.requestTimeout.milliseconds)
-  private val logger = LoggerFactory.getLogger(classOf[TelemetryEndPoints])
+  private val logger = LoggerFactory.getLogger(classOf[ApiEndPoints])
 
   val telemetryServiceRoutes: server.Route =
     pathPrefix("v1") {
-      path("telemetry") {
+      path("data") {
         post {
           entity(as[Request]) { event =>
             complete {
